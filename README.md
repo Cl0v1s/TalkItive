@@ -9,3 +9,8 @@ L'envoi se réalise pour le moment pixel par pixel.
 Coté ordinateur, Talkitive prend la forme d'une bibliothèque C permettant la meilleure portabilité qui soit.
 
 Coté Idevice, le projet prends la forme d'une application IOS, dévelopée sous Xamarin.
+
+
+## Dépendances
+
+Cette bibliothèque nécessite [libimobiledevice](http://libimobiledevice.org).
