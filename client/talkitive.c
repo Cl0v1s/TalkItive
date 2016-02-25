@@ -25,7 +25,7 @@ idevice_error_t talkitive_connect(idevice_connection_t *socket)
 		printf("Impossible de se connecter au device phase 1...\n");
 		return status;
 	}
-	status = idevice_connect(device, 22, socket); //seul le port 22 semble fonctionner pour une raison que j'ignore 
+	status = idevice_connect(device, 1234, socket); //seul le port 22 semble fonctionner pour une raison que j'ignore 
 	if(status != 0)
 	{
 		printf("Impossible de se connecter au device phase 2\nErreur: %i\n", status);
