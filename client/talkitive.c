@@ -36,9 +36,14 @@ int talkitive_connect(usbmuxd_device_info_t *device, const unsigned short port)
 	return res;
 }
 
+int talkitive_disconnect(int buffer)
+{
+	usbmuxd_disconnect(buffer);
+}
 
-/*
-idevice_error_t talkitive_send_pixel(idevice_connection_t socket, uint x, uint y, uint color)
+
+
+int talkitive_send_pixel(int socket, uint x, uint y, uint color)
 {
 
 	char x_data[15];
@@ -61,12 +66,12 @@ idevice_error_t talkitive_send_pixel(idevice_connection_t socket, uint x, uint y
 
 	int sent_bytes;
 
-	idevice_error_t status = idevice_connection_send(socket, data, strlen(data), &sent_bytes);
-	if(status != 0)
+	int res = usbmuxd_send(socket, data, strlen(data), &sent_bytes);
+	if(res != 0)
 	{
-		printf("Echec de l'envoi.\nErreur: %d\n", status);
-		return status;
+		printf("Echec de l'envoi.\nErreur: %d\n", res);
+		return res;
 	}
 	printf("Message envoyé. Longueur: %d\n", sent_bytes);
-	return 0;
-}*/
+	return res;
+}
