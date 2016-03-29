@@ -18,7 +18,7 @@ int main()
 
 	int buffer = talkitive_connect(&device, 1234);
 
-	talkitive_send_pixel(buffer, 0,0,0);
+	talkitive_send_pixel(buffer, 0,0,255);
 
 	talkitive_disconnect(buffer);
 	return 0;
