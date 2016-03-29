@@ -1,0 +1,10 @@
+Package: com.portron.talkative
+Name: Talkative
+Depends: 
+Architecture: iphoneos-arm
+Description: An awesome application!
+Maintainer: Clovis Portron
+Author: Clovis Portron
+Section: Utilities
+Version: 0.0.1-34
+Installed-Size: 148
