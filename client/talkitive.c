@@ -1,40 +1,43 @@
 #include "talkitive.h"
 
-idevice_error_t talkitive_connect(idevice_connection_t *socket)
+int talkitive_search(usbmuxd_device_info_t **list)
 {
-	int i = 0;
-	char **list;
-	int count;
-	printf("Récupération des périphériques...\n");
-	idevice_error_t status = idevice_get_device_list(&list, &count);
-	if(status != 0)
+	int res = usbmuxd_get_device_list(list);
+	if(res < 0)
 	{
-		printf("Impossible de récupérer les périphériques.\nErreur %i\n", status);
-		return status;
+		printf("Veuillez lancer le service usbmuxd\n");
+		exit(1);
 	}
-	printf("Appareils détéctés: %i\n", count);
-	for(i= 0; i!= count; i++)
-	{
-		printf("UID %i: %s\n",i, list[i]);
-	}
-	printf("Connexion au device 0...\n");
-	idevice_t device;
-	status = idevice_new(&device, list[i]);
-	if(status != 0)
-	{
-		printf("Impossible de se connecter au device phase 1...\n");
-		return status;
-	}
-	status = idevice_connect(device, 1234, socket); //seul le port 22 semble fonctionner pour une raison que j'ignore 
-	if(status != 0)
-	{
-		printf("Impossible de se connecter au device phase 2\nErreur: %i\n", status);
-		return status;
-	}
-	printf("Connexion établie\n");
-	return 0;
+	printf("Appareils trouvé: %d\n", res);
+	return res;
 }
 
+int talkitive_get_device(usbmuxd_device_info_t *device)
+{
+	int res = usbmuxd_get_device_by_udid(device->udid, device);
+	if(res < 0)
+	{
+		printf("Veuillez lancer le service usbmuxd\n");
+		exit(1);
+	}
+	printf("Reception des informations..OK\n");
+	return res;
+}
+
+int talkitive_connect(usbmuxd_device_info_t *device, const unsigned short port)
+{
+	int res = usbmuxd_connect(device->handle, port);
+	if(res < 0)
+	{
+		printf("Impossible d'ouvrir la connexion. Veuillez lancer le service usbmuxd ou choisir un autre port.\n");
+		exit(1);
+	}
+	printf("Ouverture de la connexion...OK\n");
+	return res;
+}
+
+
+/*
 idevice_error_t talkitive_send_pixel(idevice_connection_t socket, uint x, uint y, uint color)
 {
 
@@ -66,4 +69,4 @@ idevice_error_t talkitive_send_pixel(idevice_connection_t socket, uint x, uint y
 	}
 	printf("Message envoyé. Longueur: %d\n", sent_bytes);
 	return 0;
-}
+}*/

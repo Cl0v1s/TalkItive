@@ -1,28 +1,25 @@
 
 #include <stdio.h>
-
-#include "/usr/local/include/usbmuxd.h"
-
-
-//#include "talkitive.h"
+#include <string.h>
+#include "talkitive.h"
 
 
 int main()
 {
 	usbmuxd_device_info_t *list_devices;
+	usbmuxd_device_info_t device;
 
-	int res = usbmuxd_get_device_list(&list_devices);
-	if(res < 0)
-	{
-		printf("Veuillez lancer le service usbmuxd\n");
-		return 1;
-	}
-	printf("Appareils trouvé: %d\n", res);
-	if(res == 0)
-	{
-		printf("Aucun appareil trouvé, arrêt.\n");
-		return 1;
-	}
+	int count = talkitive_search(&list_devices);
+	if(count <= 0)
+		return;
+	//copie d'un des uid dans le device allant étre usité pour la suite
+	memcpy(&device.udid, &list_devices[0].udid, sizeof device.udid);
+	talkitive_get_device(&device);
+
+	int buffer = talkitive_connect(&device, 1234);
+
+
+
 
 	/*idevice_connection_t socket;
 	idevice_error_t status = talkitive_connect(&socket);	

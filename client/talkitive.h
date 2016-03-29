@@ -3,12 +3,11 @@
 
 #include <stdlib.h>
 #include <stdio.h>
-#include <string.h>
 
-#include <libimobiledevice/libimobiledevice.h>
+#include "/usr/local/include/usbmuxd.h"
 
-idevice_error_t talkitive_connect(idevice_connection_t *socket);
-
-idevice_error_t talkitive_send_pixel(idevice_connection_t socket, uint x, uint y, uint color);
+int talkitive_search(usbmuxd_device_info_t **list);
+int talkitive_get_device(usbmuxd_device_info_t *device);
+int talkitive_connect(usbmuxd_device_info_t *device, const unsigned short port);
 
 #endif
