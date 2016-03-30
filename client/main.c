@@ -1,6 +1,7 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 #include "talkitive.h"
 
 
@@ -17,8 +18,15 @@ int main()
 	talkitive_get_device(&device);
 
 	int buffer = talkitive_connect(&device, 1234);
-
-	talkitive_send_pixel(buffer, 0,0,255);
+	int i = 0;
+	while(1==1)
+	{
+		char msg[80];
+		sprintf(msg, "msg #%d", i);
+		talkitive_send(buffer, msg);
+		sleep(2);
+		i++;
+	}
 
 	talkitive_disconnect(buffer);
 	return 0;

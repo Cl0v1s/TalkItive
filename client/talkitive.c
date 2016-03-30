@@ -43,24 +43,13 @@ int talkitive_disconnect(int buffer)
 
 
 
-int talkitive_send_pixel(int socket, uint x, uint y, uint color)
+int talkitive_send(int socket, char text[])
 {
-
-	char x_data[15];
-	char y_data[15];
-	char color_data[15];	
-	sprintf(x_data,"%d", x);
-	sprintf(y_data,"%d", y);
-	sprintf(color_data,"%d", color);
 
 
 	char data[80];
-	strcpy(data, "pixel ");
-	strcat(data, x_data);
-	strcat(data, " ");
-	strcat(data, y_data);
-	strcat(data, " ");
-	strcat(data, color_data);
+	strcpy(data, text);
+
 
 	printf("Envoi de '%s'\n", data);
 
