@@ -1,49 +1,36 @@
 #import "RootViewController.h"
 
+void* PosixThreadMainRoutine(void* data)
+{
+
+	RootViewController *self = (RootViewController *)data;
+    // Do some work here.
+	NSLog(@"FROM THREAD");
+
+	[self listen_socket];
+    return NULL;
+}
+
+
 @implementation RootViewController
 - (void)loadView {
 	self.view = [[[UIView alloc] initWithFrame:[[UIScreen mainScreen] applicationFrame]] autorelease];
-	self.view.backgroundColor = [UIColor greenColor];
-
-	//intialisation des propriétés
-	self.width = 320;
-	self.height = 480;
-	self.array = (char*)malloc(self.width*self.height*sizeof(char));
-	int i,u;
-	for(i = 0; i != self.width; i++)
-	{
-		for(u = 0; u != self.height; u++)
-		{
-			self.array[i*self.height+u] = 255;
-		}
-	}
-	self.view.backgroundColor = [UIColor purpleColor];
-
-	self.view.backgroundColor = [UIColor blueColor];
-	[self listen_socket];
-}
-
-- (void)draw_array
-{
-	CGColorSpaceRef colorSpace=CGColorSpaceCreateDeviceRGB();
-    CGContextRef bitmapContext=CGBitmapContextCreate(self.array, self.width, self.height, 8, self.height*self.width, colorSpace,  kCGImageAlphaPremultipliedLast | kCGBitmapByteOrderDefault);
-    CFRelease(colorSpace);
-
-    CGImageRef cgImage=CGBitmapContextCreateImage(bitmapContext);
-    CGContextRelease(bitmapContext);
-
-    UIImage * newimage = [UIImage imageWithCGImage:cgImage];
-    CGImageRelease(cgImage);
-    UIImageView * imageView = [[UIImageView alloc] initWithImage:newimage];
 	self.view.backgroundColor = [UIColor whiteColor];
 
-	[self.view addSubview:imageView ];
-	[self.view sendSubviewToBack:imageView ];
-	[self.view setNeedsDisplay];
-	[imageView release]; 
+	//intialisation des propriétés
+
+	//Création du thread
+	pthread_attr_t  attr;
+    pthread_t       posixThreadID;
+    int             returnVal; 
+    returnVal = pthread_attr_init(&attr);
+    returnVal = pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_DETACHED);
+    pthread_create(&posixThreadID, &attr, &PosixThreadMainRoutine, self);
 }
 
 - (void)listen_socket{
+	NSLog(@"FROM SOCKET");
+
 	//cette section du code est en c
 	int sock;
 	int connection;
@@ -88,18 +75,9 @@
 
 	recv(connection, &data, 80, MSG_WAITALL);
 
-		//analyse du contenu de la commande
-		if(strstr(data, "pixel") != 0)
-		{
-
-			int x, y, color; 
-	//self.view.backgroundColor = [UIColor purpleColor];
-
-			sscanf(data, "pixel %d %d %d", &x, &y, &color);
-
-			self.array[x*self.width+y] = color;
-			[self draw_array];
-		}
+	//analyse du contenu de la commande
+	NSString *marketPacket = [NSString stringWithCString:data encoding:NSASCIIStringEncoding];
+	NSLog(@"Recu: %@", marketPacket);
 
 
 
