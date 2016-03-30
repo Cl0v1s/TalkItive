@@ -7,11 +7,18 @@
 #include <netinet/in.h>
 #include <syslog.h>
 #include <pthread.h>
+#include <sys/time.h>
+#include <math.h>
+
 
 @interface RootViewController: UIViewController {
+	NSMutableArray *entries;
 }
 
+
 - (void)listen_socket;
+- (void)waiting: (int*) cnx;
+- (void)showEntries;
 
 
 @end
