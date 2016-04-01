@@ -12,6 +12,10 @@ L'application est testée sur un Ipod touch 2G tournant sous [WhiteD00r](http://
 
 Un programme de test, nommé main dans le répertoire "test" permet d'illustrer les propos expliqués ici. 
 
+##TODO:
+
+* Proposer un support pour [ncurses](http://www.cyberciti.biz/faq/linux-install-ncurses-library-headers-on-debian-ubuntu-centos-fedora/)
+
 ## Dépendances
 
 La bibliothèque Linux nécessite : 
