@@ -22,6 +22,7 @@ La bibliothèque Linux nécessite :
 
 * [libusbmux-dev](https://packages.debian.org/jessie/libusbmuxd-dev)
 * [usbmuxd](https://packages.debian.org/sid/utils/usbmuxd)
+* D'avoir le service usbmuxd lancé (sudo service usbmuxd start)
 
 La compilation de l'application IOS demande:
 
