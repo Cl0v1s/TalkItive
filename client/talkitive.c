@@ -6,7 +6,7 @@ int talkitive_search(usbmuxd_device_info_t **list)
 	if(res < 0)
 	{
 		printf("Veuillez lancer le service usbmuxd\n");
-		exit(1);
+		return -1;
 	}
 	printf("Appareils trouvé: %d\n", res);
 	return res;
@@ -18,7 +18,7 @@ int talkitive_get_device(usbmuxd_device_info_t *device)
 	if(res < 0)
 	{
 		printf("Veuillez lancer le service usbmuxd\n");
-		exit(1);
+		return -1;
 	}
 	printf("Reception des informations..OK\n");
 	return res;
@@ -30,7 +30,7 @@ int talkitive_connect(usbmuxd_device_info_t *device, const unsigned short port)
 	if(res < 0)
 	{
 		printf("Impossible d'ouvrir la connexion. Veuillez lancer le service usbmuxd ou choisir un autre port.\n");
-		exit(1);
+		return -1;
 	}
 	printf("Ouverture de la connexion...OK\n");
 	return res;
@@ -39,6 +39,7 @@ int talkitive_connect(usbmuxd_device_info_t *device, const unsigned short port)
 int talkitive_disconnect(int buffer)
 {
 	usbmuxd_disconnect(buffer);
+	return 0;
 }
 
 
@@ -59,7 +60,7 @@ int talkitive_send(int socket, char text[])
 	if(res != 0)
 	{
 		printf("Echec de l'envoi.\nErreur: %d\n", res);
-		return 1;
+		return -1;
 	}
 	printf("Message envoyé. Longueur: %d\n", sent_bytes);
 	sleep(1); //on attends pour éviter de surcharger le buffer
@@ -70,14 +71,14 @@ int talkitive_clear(int *socket)
 {
 	char msg[80];
 	sprintf(msg, "clear");
-	talkitive_send(*socket, msg);
+	return talkitive_send(*socket, msg);
 }
 
 int talkitive_wait(int *socket)
 {
 	char msg[80];
 	sprintf(msg, "wait");
-	talkitive_send(*socket, msg);
+	return talkitive_send(*socket, msg);
 }
 
 int talkitive_onesend(char msg[])
@@ -87,11 +88,12 @@ int talkitive_onesend(char msg[])
 
 	int count = talkitive_search(&list_devices);
 	if(count <= 0)
-		return;
+		return -1;
 	//copie d'un des uid dans le device allant étre usité pour la suite
 	memcpy(&device.udid, &list_devices[0].udid, sizeof device.udid);
 	talkitive_get_device(&device);
 	int buffer = talkitive_connect(&device, 1234);
 	talkitive_send(buffer, msg);
 	talkitive_disconnect(buffer);
+	return 0;
 }
