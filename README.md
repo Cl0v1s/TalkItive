@@ -3,7 +3,7 @@
 ## Description
 
 TalkItive est un projet visant à permettre d'user d'un appareil mobile Apple (Ipod touch, IPhone)
-comme un support graphique externe pour Linux permettant d'afficher du texte.
+comme un support graphique externe pour Linux permettant d'afficher du texte via USB.
 
 Coté Linux, TalkItive propose une bibliothèques de fonctions C permettant de se connecter à un Idevice et d'envoyer de texte de manière connectée (en gardant la main) ou déconnectée.
 Coté Idevice, le projet prend la forme d'une application IOS dévelopée à l'aide de Theos et du SDK Iphone 5.0.
