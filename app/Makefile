@@ -1,7 +1,7 @@
 include theos/makefiles/common.mk
 
-APPLICATION_NAME = Talkative
-Talkative_FILES = main.m TalkativeApplication.mm RootViewController.mm
-Talkative_FRAMEWORKS = UIKit CoreGraphics
+APPLICATION_NAME = TalkItive
+TalkItive_FILES = main.m
+TalkItive_FRAMEWORKS = UIKit CoreGraphics
 
 include $(THEOS_MAKE_PATH)/application.mk
